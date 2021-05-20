@@ -52,10 +52,11 @@ class LinkedList:
                 print(f"Current Node: {current.position}", f"Rand Node: Null", f"Data: {current.data}")
                 current = current.next
 
-    #Given a generic linked list with a next pointer, and a random next pointer, construct a copy of said list
+    '''#Given a generic linked list with a next pointer, and a random next pointer, construct a copy of said list
     #Asking for a deep copy, which just means the new list has different references.
     #Deep copies are more expensive and complicated (graph of references, yikes)
     #Random pointer can point to another node or be null
+    '''
     def copy_random_list(self, head) -> 'Node':
         if head is None:
             return None
@@ -79,7 +80,11 @@ class LinkedList:
         node.rand = self.copy_random_list(head.rand)
 
         return node
-#Notes: You can view this problem like a graph... DUH!
+    '''
+    Complexity Analysis:
+    Time: O(N) where N is the number of nodes
+    Space: O(N) where N is the recursive call stack
+    '''
 
 if __name__ == "__main__":
 
