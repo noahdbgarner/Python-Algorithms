@@ -7,20 +7,19 @@ class Ship:
                  health="",
                  coords=""):
 
-        self.name = name
-        self.health = health
-        self.coords = coords
-
-    def get_coords(self) -> None:
-        return self.coords
+        self.name: str = name
+        self.health: int = health
+        self.coords: list[int] = coords
 
     def get_name(self) -> None:
         return self.name
 
+    def get_coords(self) -> None:
+        return self.coords
+
     def set_coords(self, coords) -> None:
         self.coords = coords
 
-    # If the health is 0, the ship was sunk
     def decrement_health(self) -> None:
         self.health -= 1
         if self.health == 0:
