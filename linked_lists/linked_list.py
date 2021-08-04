@@ -2,7 +2,7 @@ import random
 #Remember to white board the problem first. If you are struggling, make sure to look at hints
 class Node:
     """
-    A Representation of a Node of a Linked List with a random and position field for various algorithms
+    A representation of a Node of a Linked List with a random and position field for various algorithms
     """
     def __init__(self: object, data: int, position: int, next: 'Node' = None, rand: 'Node' = None):
         self.data = data
@@ -12,7 +12,8 @@ class Node:
 #linked list implementation for testing. Contains insertion, add random pointers, and print
 class LinkedList:
     """
-    
+    A representation of a LinkedList which includes insert, add rand pointer, and print methods.
+    TBD: Additional methods for leetcode algorithms
     """
     def __init__(self, head: 'Node' = None, length: int = 0):
         #Head is not static!

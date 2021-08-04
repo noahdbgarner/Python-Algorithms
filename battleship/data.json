@@ -1,0 +1,5 @@
+[{"rows":  10, "cols":  10},
+{"name": "Aircraft Carrier", "health": 5},
+{"name": "Battleship", "health": 4},
+{"name": "Submarine", "health": 3},
+{"name": "Destroyer", "health": 2}]

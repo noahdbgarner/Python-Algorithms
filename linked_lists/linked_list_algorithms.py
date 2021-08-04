@@ -31,26 +31,48 @@ def copy_random_list(self, head) -> 'Node':
 
 
 
-# TODO: Finish this algorithm
+'''
+Title: 
+    Add Two Numbers Given Two non-empty Linked Lists
+Description:
+    Given two linked lists representing two non-negative integers, where each node contains 1 digit,
+    Add the two numbers and return the sum as a linked list. A Node may be 0.. The last Node cannot be
+    0, ie. No leading 0s. 
+    eg. l1 = (2) -> (4) -> (3)      342
+        l2 = (5) -> (6) -> (4)      465
+        sum= (7) -> (0) -> (8)      807
+        
+Notes:
+    The trick is handling the carry, and the digits are stored in reverse order
+    Just like in regular addition, we start summing th least significant digits first, and
+    move a carry over (1 or 0). 
+    Keep in mind: 1 list longer than the other, one list is null or empty, and sum could have
+    an extra carry at the very end
+'''
 def addTwoNumbers(l1: Node, l2: Node) -> Node:
-    carry = 0
-    head = Node(0, 0)
-    curr = head
-    while l1 or l2 is not None:
-        if (l1.data + l2.data + carry) >= 10:
-            curr.data = (l1.data + l2.data + carry) % 10
-            carry = 1
-        else:
-            curr.data = l1.data + l2.data + carry
+        l3 = Node(0,0)
+        dummy = l3
+        carry = 0
+        while l1 or l2 or (carry is 1):
+            cursum = 0
+            if l1 is not None:
+                cursum += l1.data
+                l1 = l1.next
+            if l2 is not None:
+                cursum += l2.data
+                l2 = l2.next
+            cursum += carry
+            dummy.data = cursum % 10
+
             carry = 0
-        if l1.next or l2.next is not None:
-            curr.next = Node(0, 0)
-            curr = curr.next
-            l1 = l1.next
-            l2 = l2.next
-        else:
-            break
-    return head
+            if cursum > 9:
+                carry = 1
+
+            if l1 or l2 or (carry is 1):
+                dummy.next = Node(0,0)
+                dummy = dummy.next
+
+        return l3
 
 
 
@@ -59,9 +81,10 @@ def addTwoNumbers(l1: Node, l2: Node) -> Node:
 if __name__ == "__main__":
 
     LL1 = Structures.LL1
-    LinkedList.print_ll(head=LL1.head)
+    LL1.print_ll(LL1.head)
     LL2 = Structures.LL2
-    LinkedList.print_ll(head=LL2.head)
+    LL1.print_ll(LL2.head)
 
-    LL3 = addTwoNumbers(LL1.head, LL2.head)
-    LinkedList.print_ll(LL3)
+
+    LL3 = LinkedList(length=3)
+    LL3.print_ll(addTwoNumbers(LL1.head, LL2.head))
