@@ -5,11 +5,12 @@ def play_battleship(player_1, player_2, datafile) -> None:
     player_1.build_grid_and_place_ships(datafile)
     player_2.build_grid_and_place_ships(datafile)
 
-    print(f"{player_1.get_name()} VS {player_2.get_name()}")
-
     while True:
+        print(f"{player_2.get_name()}")
         player_2.print_grid()
+        print(f"{player_1.get_name()}")
         player_1.print_grid()
+
         player_1.attack(player_2.grid)
         player_2.attack(player_1.grid)
 
@@ -21,7 +22,7 @@ The ships will be randomly placed for you and the opponent.
 The first player to sink all the other player's ships wins!
 
 How to play:
-    1. When prompted enter your name
+    1. When prompted, enter your name
     2. When prompted, enter a grid coordinate to attack (e.g. a10 or J1) 
 
 To make the game more interesting:

@@ -41,33 +41,21 @@ class Player:
         enemy_grid.shots_dict[str(col) + str(row)] = location_data
         return
 
-    def damage_ship_and_update_location_data(self, coord, col, row, enemy_grid) -> str:
-        location_data = "M"
-        if (col, row) in enemy_grid.ship_locations:
-            location_data = "H"
-            print(f"{coord} was a hit!")
-
-            # Find the ship that was hit, and decrement it's health. Check if game is over
-            for ship in enemy_grid.grid_ships:
-                if (col, row) in ship.get_coords():
-                    ship.decrement_health()
-                    self.is_game_over(enemy_grid)
-
-        if location_data == "M":
-            print(f"{coord} missed!")
-        return location_data
-
     def check_and_validate_attack_coord(self, enemy_grid) -> tuple:
         while True:
-
             coord = self.get_attack_coord(enemy_grid)
-            col, row = int(ord(coord[0])) - 97, int(coord[1:]) - 1
 
-            not_in_shots_dict = enemy_grid.attack_not_in_shots_dict(coord, col, row, self.is_computer)
-            in_grid = enemy_grid.attack_inside_grid(coord, col, row)
+            # Try-else since control flows off of the try
+            try:
+                col, row = int(ord(coord[0])) - 97, int(coord[1:]) - 1
+            except ValueError as err:
+                print("Bad input. Coordinate must be of the form a10 or J1")
+            else:
+                not_in_shots_dict = enemy_grid.attack_not_in_shots_dict(coord, col, row, self.is_computer)
+                in_grid = enemy_grid.attack_inside_grid(coord, col, row)
 
-            if not_in_shots_dict and in_grid:
-                break
+                if not_in_shots_dict and in_grid:
+                    break
 
         return coord, col, row
 
@@ -83,8 +71,24 @@ class Player:
             coord = input("Choose a coordinate to fire on: ").lower()
             if 1 < len(coord) <= len(str(self.grid.cols)) + 1:
                 break
-            print("Bad input")
+            print("Bad length. Coordinate must be of the form a10 or J1")
         return coord
+
+    def damage_ship_and_update_location_data(self, coord, col, row, enemy_grid) -> str:
+        location_data = "M"
+        if (col, row) in enemy_grid.ship_locations:
+            location_data = "H"
+            print(f"{coord} was a hit!")
+
+            # Find the ship that was hit, and decrement it's health. Check if game is over
+            for ship in enemy_grid.grid_ships:
+                if (col, row) in ship.get_coords():
+                    ship.decrement_health()
+                    self.is_game_over(enemy_grid)
+
+        if location_data == "M":
+            print(f"{coord} missed!")
+        return location_data
 
     def is_game_over(self, enemy_grid) -> None:
         if enemy_grid.all_ships_sunk():
