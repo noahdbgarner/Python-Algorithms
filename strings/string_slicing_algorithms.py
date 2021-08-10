@@ -14,6 +14,7 @@ Complexity Analysis:
     Space: O(m|n)
     Time: O(m|n)
 '''
+
 def length_of_longest_substring(s: str) -> int:
     # unique char string, max unique char string
     ucs, mucs = "", ""
