@@ -17,7 +17,7 @@ class Structures:
     int_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 20, 10, 2, 3, 4, 5, 6, 11]
 
     # String list
-    string_list = ["Wet Pussy", "Big Fat Old Mantits", "Brady and Noah are genius", "I wanna fuck Selena Gomez",
+    string_list = ["Wet", "Big", "Brady and Noah", "I wanna",
                  "biiiiiiiiiiiiiiiiiiiiiig boooooooooooooooooooty biiiiiiiiiiiiiiiiiiitches"]
 
     # Some extremely long string
