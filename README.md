@@ -1,4 +1,4 @@
-# Real-Time Media Streaming Data Architecture
+# Python-Algorithms
 
 ## 1. Introduction
 
@@ -11,7 +11,6 @@ There is a google doc with notes linked to each of the algorithms.
 
 Employ a robust habit for studying and learning algorithms quickly.
 
-
 ## 2. Notes
 
-Please see the [Python-Algorithms Google Doc](https://docs.google.com/spreadsheets/d/1HkKC-YeWV8bQ9gC1jIRmJYT-WzvI7zuRAWB4Fxb_JBA/edit#gid=0) to check my progress
+Please see the [Python-Algorithms Google Doc](https://docs.google.com/spreadsheets/d/1HkKC-YeWV8bQ9gC1jIRmJYT-WzvI7zuRAWB4Fxb_JBA/edit#gid=0) to check my progress.

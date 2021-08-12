@@ -13,6 +13,8 @@ Complexity Analysis:
     Space: O(m|n)
     Time: O(m|n)
 '''
+
+
 def length_of_longest_substring_with_no_repeat_characters(s: str) -> int:
     # ucs = unique char string, mucs = max unique char string
     ucs, mucs = "", ""
@@ -28,25 +30,6 @@ def length_of_longest_substring_with_no_repeat_characters(s: str) -> int:
             ucs = ucs[ucs.index(s[i]) + 1:] + s[i]
 
     return max(len(mucs), len(ucs))
-
-
-'''
-Description:
-    Selects a random slice from a word, and prints it in such a way that is increasing, to its last character,
-    and decreasing to its first character in order to form a triangle in the output
-'''
-def print_random_slices(words: List[str]) -> None:
-    # Like lists, we can enumerate strings, then we can easily slice them at all indices
-    while True:
-        word = random.choice(words)
-        for index, cur_letter in enumerate(word):
-            print(word[:index]+cur_letter)
-            sleep(.01)
-
-        for index, cur_letter in enumerate(word):
-            print(word[index:])
-            sleep(.01)
-
 
 
 
