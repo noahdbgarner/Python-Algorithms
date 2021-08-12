@@ -20,6 +20,10 @@ def base_n(num, frombase=10, base=64):
 
 
 
+
+
+
+
 if __name__ == "__main__":
 
     base_n(10)
