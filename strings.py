@@ -46,11 +46,4 @@ if __name__ == "__main__":
 
     print(longest_substring_with_no_repeat_characters(long_string))
 
-
-
-
-
-
-
-
-
+    print("hello"[1:])
