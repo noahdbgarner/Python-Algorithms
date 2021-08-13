@@ -1,16 +1,16 @@
 from player import Player
-
-def play_battleship(player_1, player_2, datafile) -> None:
-
-    player_1.build_grid_and_place_ships(datafile)
-    player_2.build_grid_and_place_ships(datafile)
+import json
+def play_battleship(player_1, player_2, game_data) -> None:
+    """
+    Description:
+        Builds each player's grid and ships. Both players print their grids and attack each other until a player has no ships left
+    """
+    player_1.build_grid_and_place_ships(game_data)
+    player_2.build_grid_and_place_ships(game_data)
 
     while True:
-        print(f"{player_2.get_name()}")
         player_2.print_grid()
-        print(f"{player_1.get_name()}")
         player_1.print_grid()
-
         player_1.attack(player_2.grid)
         player_2.attack(player_1.grid)
 
@@ -28,13 +28,19 @@ How to play:
 To make the game more interesting:
     1. Add or remove ships in data.json
     2. Change rows and cols in data.json to increase or decrease the grid size
+    3. If you would like to automate the entire game, pass 'is_computer=True' to both player objects in play_battelship.py
 """)
 
 if __name__ == "__main__":
-
+    """
+    Description:
+        1. Prints battleship info and rules
+        2. Instantiates two player objects. If is_computer=True, that player will act as a computer
+        3. Plays battleship between the two players with ships in data.json
+    """
     print_battleship_info()
 
-    player = Player(name=input(f"Enter your name when you are ready to play: "))
+    player = Player(name=input(f"Enter your name when you are ready to play: "), is_computer=False)
     computer = Player(name="computer", is_computer=True)
     data = "data.json"
 

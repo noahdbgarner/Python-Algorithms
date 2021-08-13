@@ -1,5 +1,4 @@
 import random
-#Remember to white board the problem first. If you are struggling, make sure to look at hints
 class Node:
     """
     A representation of a Node of a Linked List with a random and position field for various algorithms
@@ -48,13 +47,35 @@ class LinkedList:
                     target = target.next
             current = current.next
 
-    def print_ll(self, head) -> None:
+    @staticmethod
+    def print_ll(head) -> None:
         current = head
-        print(f"Length: {self.length}")
-        for i in range(0,self.length):
+        while current:
             if current.rand is not None:
                 print(f"Current Node: {current.position}", f"Rand Node: {current.rand.position}", f"Data: {current.data}")
                 current = current.next
             else:
                 print(f"Current Node: {current.position}", f"Rand Node: Null", f"Data: {current.data}")
                 current = current.next
+
+
+# Linked List length 3
+LL1 = LinkedList()
+LL1.insert(2)
+LL1.insert(4)
+LL1.insert(3)
+
+# Linked List length 3
+LL2 = LinkedList()
+LL2.insert(5)
+LL2.insert(6)
+LL2.insert(4)
+
+# Linked List with duplicate data
+LLDuplicates = LinkedList()
+LLDuplicates.insert(4)
+LLDuplicates.insert(1)
+LLDuplicates.insert(1)
+LLDuplicates.insert(4)
+LLDuplicates.insert(0)
+LLDuplicates.insert(3)

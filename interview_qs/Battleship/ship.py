@@ -1,6 +1,6 @@
 class Ship:
     """
-    Representation of the Ship class
+    Representation of the Ship class. A Ship has a name, and health, and a list of coordinates
     """
     def __init__(self,
                  name="",
@@ -9,12 +9,12 @@ class Ship:
 
         self.name: str = name
         self.health: int = health
-        self.coords: list[int] = coords
+        self.coords: list = coords
 
-    def get_name(self) -> None:
+    def get_name(self) -> str:
         return self.name
 
-    def get_coords(self) -> None:
+    def get_coords(self) -> list:
         return self.coords
 
     def set_coords(self, coords) -> None:

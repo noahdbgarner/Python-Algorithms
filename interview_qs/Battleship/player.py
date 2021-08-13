@@ -4,7 +4,7 @@ import json
 
 class Player:
     """
-    Representation of the Player class. A Player has a Grid
+    Representation of the Player class. A Player has a Grid and may be a computer
     """
     def __init__(self,
                  name="",
@@ -15,40 +15,33 @@ class Player:
         self.grid: Grid = grid
         self.is_computer: bool = is_computer
 
-    def get_name(self) -> str:
-        return self.name
+    def build_grid_and_place_ships(self, game_data) -> None:
+        """
+        Description:
+            Validates the game_data, builds the grid, builds the ships, and places the ships
+        """
+        dimensions, ships = self.validate_and_get_dimensions_and_ships(game_data)
 
-    # Build grid, Build ships, and Place ships
-    def build_grid_and_place_ships(self, datafile) -> None:
-
-        dimensions = self.read_dimensions(datafile)
         self.grid = Grid(rows=dimensions["rows"], cols=dimensions["cols"])
-
-        ship_data = self.read_ships(datafile)
-        self.grid.build_ships(ship_data)
-
+        self.grid.build_ships(ships)
         self.grid.randomly_set_ship_locations()
 
-    # Choose a coordinate to fire on, check the coordinate, and added to the shot_dict
     def attack(self, enemy_grid: Grid) -> None:
-
-        coord, col, row = self.check_and_validate_attack_coord(enemy_grid)
+        coord, col, row = self.validate_and_get_attack_coord(enemy_grid)
         print(f"{self.name} attacked {coord}!")
 
-        location_data = self.damage_ship_and_update_location_data(coord, col, row, enemy_grid)
+        location_data = self.damage_ship_and_get_location_data(coord, col, row, enemy_grid)
 
-        # Add the location data to the shots dictionary
+        # Update the location data to the shots dictionary
         enemy_grid.shots_dict[str(col) + str(row)] = location_data
-        return
 
-    def check_and_validate_attack_coord(self, enemy_grid) -> tuple:
+    def validate_and_get_attack_coord(self, enemy_grid) -> tuple:
         while True:
             coord = self.get_attack_coord(enemy_grid)
-
-            # Try-else since control flows off of the try
+            # Handles bad input of the form '7b', '//', '%m', 'a?', '?7'...
             try:
                 col, row = int(ord(coord[0])) - 97, int(coord[1:]) - 1
-            except ValueError as err:
+            except ValueError:
                 print("Bad input. Coordinate must be of the form a10 or J1")
             else:
                 not_in_shots_dict = enemy_grid.attack_not_in_shots_dict(coord, col, row, self.is_computer)
@@ -60,13 +53,16 @@ class Player:
         return coord, col, row
 
     def get_attack_coord(self, enemy_grid) -> str:
-        # Computer defaults to random char from a to enemy_grid.cols inclusive, and 1 tp enemy_grid.rows
         coord = chr(random.randrange(97, 97 + enemy_grid.cols)) + str(random.randint(1, enemy_grid.rows))
         if not self.is_computer:
             coord = self.get_and_validate_player_input()
         return coord
 
     def get_and_validate_player_input(self) -> str:
+        """
+        Description:
+            Checks user input is within grid. Assumes the grid has equal cols and rows
+        """
         while True:
             coord = input("Choose a coordinate to fire on: ").lower()
             if 1 < len(coord) <= len(str(self.grid.cols)) + 1:
@@ -74,7 +70,12 @@ class Player:
             print("Bad length. Coordinate must be of the form a10 or J1")
         return coord
 
-    def damage_ship_and_update_location_data(self, coord, col, row, enemy_grid) -> str:
+    def damage_ship_and_get_location_data(self, coord, col, row, enemy_grid) -> str:
+        """
+        Description:
+            Sets default location_data to a miss. If the (col, row) is a ship location,
+            mark it has a hit, and decrement ship health. Then, check if the game is over
+        """
         location_data = "M"
         if (col, row) in enemy_grid.ship_locations:
             location_data = "H"
@@ -93,17 +94,15 @@ class Player:
     def is_game_over(self, enemy_grid) -> None:
         if enemy_grid.all_ships_sunk():
             print(f"{self.name} wins!")
-            exit(1)
+            exit(0)
 
-    # Print a grid. If coord is in the s, print location_data, otherwise print ~
     def print_grid(self) -> None:
-
-        # Print offset, and col headers, considering num cols could change
-        print(' ' * (len(str(self.grid.cols)) + 1), end="")
+        print(self.name)
+        # Print offset, and col headers, considering num rows could change
+        print(' ' * (len(str(self.grid.rows)) + 1), end="")
         print(*[chr(c+97).upper() for c in range(self.grid.cols)], end="")
 
         for r in range(self.grid.rows):
-
             # Print row headers, and offset considering num rows could change
             offset = ' ' * ((len(str(self.grid.rows))) - len(str(r+1)))
             print(f"\n{r+1} " + offset, end="")
@@ -112,7 +111,7 @@ class Player:
                 coord = str(c)+str(r)
                 location_info = self.grid.shots_dict.get(coord, "~")
 
-                # If printing player grid, we should print first letter of ship where ship not hit yet
+                # If not computer grid, we should print first letter of ship if (c, r) not hit yet
                 if coord not in self.grid.shots_dict and (c, r) in self.grid.ship_locations and not self.is_computer:
                     for ship in self.grid.grid_ships:
                         if (c, r) in ship.get_coords():
@@ -122,11 +121,42 @@ class Player:
         print("\n")
 
     @staticmethod
-    def read_dimensions(data_file) -> list:
-        with open(data_file) as file:
-            return json.loads(file.read())[0]
+    def validate_and_get_dimensions_and_ships(data) -> tuple:
+        """
+        Description:
+            1. Reads the data_file
+            2. Checks rows * cols < sum_ship_health
+            3. Checks rows and cols < max_ship_health
+            4. Returns the dimensions and ships data
+        """
+        with open(data) as file:
 
-    @staticmethod
-    def read_ships(data_file) -> list:
-        with open(data_file) as file:
-            return json.loads(file.read())[1:]
+            dimensions = json.loads(file.read())[0]
+            rows = dimensions["rows"]
+            cols = dimensions["cols"]
+
+            # Reset the file.read() cursor
+            file.seek(0)
+
+            ships = json.loads(file.read())[1:]
+
+            # get max_ship_health and sum_ship_health
+            max_ship_health = 0
+            sum_ship_health = 0
+            for ship in ships:
+                sum_ship_health += ship["health"]
+                if ship["health"] > max_ship_health:
+                    max_ship_name = ship["name"]
+                    max_ship_health = ship["health"]
+
+            # Check rows * cols < sum(each ship["health"])
+            if rows * cols < sum_ship_health:
+                print("Grid dimensions not large enough to place all ships. Please check 'data.json'. Exiting.")
+                exit(1)
+
+            # Check rows and cols < max ship["health"]
+            if rows < max_ship_health and cols < max_ship_health:
+                print(f"Grid dimensions not large enough for {max_ship_name}. Please check 'data.json'. Exiting.")
+                exit(1)
+
+        return dimensions, ships

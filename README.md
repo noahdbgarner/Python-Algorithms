@@ -9,7 +9,9 @@ There is a google doc with notes linked to each of the algorithms.
 
 ### 1.2 Purpose
 
-Employ a robust habit for studying and learning algorithms quickly.
+Employ a robust habit for studying and learning algorithms quickly. Note: All of these algorithms
+are written on my whiteboard before being translated into runnable, testable code in the IDE. 
+Google style docstrings.
 
 ## 2. Notes
 
