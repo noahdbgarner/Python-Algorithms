@@ -3,6 +3,8 @@ from structures.structures import *
 def max_number_of_k_sum_pairs(nums, k: int) -> int:
     '''
     Description:
+
+    
         Return the maximum number of operations you can perform on an array where 2 numbers
         sum to k. Each time a pair sums to k, remove them from the list, and increment the counter
 
