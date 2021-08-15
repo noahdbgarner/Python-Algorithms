@@ -18,6 +18,7 @@ def max_number_of_k_sum_pairs(nums, k: int) -> int:
         Space: O(n)
         Time: O(n)
     """
+
     counter = 0
     occurrences = {}
     for num in nums:
