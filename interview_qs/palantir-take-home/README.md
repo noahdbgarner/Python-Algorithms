@@ -6,11 +6,7 @@ Question 1. Structure and Prep:
      using pyspark.
    
      - Oddity: First two rows include metadata
-     - Solution: Delete and move data to metadata file
-     
-     - Oddity: Age 90+ only value with +
-     - Solution: use PySpark regex replace to remove the +, cast as integer and treat 90 as the max, and 0 as the min age
-                Create a new column of boolean value if older than 90      
+     - Solution: Delete and move data to metadata file    
 
      - Oddity: Age column sort format is bad in Excel, may be interpreted as String
      - Solution: Use Excel to convert number format, or use PySpark to sort
@@ -73,3 +69,8 @@ Question 4: Plot a visualization of the 2016 age distribution, split out by sex
 Question 4.2 Anomalies: 
   1. Anomaly:
   2. Anomaly factor: 
+
+
+Notes:
+   1. Interpreting first part particularly as the average from 2013 through 2016
+   2. Intepreting the largest change in proportion as 2016 - 2013
