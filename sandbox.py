@@ -18,11 +18,9 @@ if __name__ == "__main__":
     SQL tips and tricks: https://coderpad.io/blog/sql-interview-questions/
     """
 
+    str = "+++World Cup+++"
+    x = str.strip("+")
 
-
-
-
-
-
+    print(x)
 
     pass
