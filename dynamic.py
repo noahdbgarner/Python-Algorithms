@@ -37,6 +37,7 @@ def max_number_of_k_sum_pairs(nums, k: int) -> int:
 
 if __name__ == "__main__":
 
+    int_list = [1,2,3]
 
     print(max_number_of_k_sum_pairs(int_list, k=15))
 
